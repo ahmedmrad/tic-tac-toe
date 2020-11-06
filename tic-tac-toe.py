@@ -15,11 +15,13 @@ def instructions(filename):
 def draw_board(board):
     '''Print board and board elements as they are updated
     '''
+    print('         ')
     print('' + board[7] + ' | ' + board[8] + ' | ' + board[9])
     print('---------')
     print('' + board[4] + ' | ' + board[5] + ' | ' + board[6])
     print('---------')
     print('' + board[1] + ' | ' + board[2] + ' | ' + board[3])
+    print('         ')
 
 
 def user_choice():
@@ -106,14 +108,14 @@ def select_marker_position(board, user_choice):
     '''
     while True:
         try:
-            index_board_selection = input(
+            index_board_selection = int(input(
                 '''
 
                 Please select the index position for your marker.
                 Choose an index between(1 - 9).
 
                 '''
-            )
+            ))
         except ValueError:
             print(
                 '''
@@ -124,7 +126,8 @@ def select_marker_position(board, user_choice):
                   '''
             )
             continue
-        if int(index_board_selection) not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
+            # catch the error value
+        if index_board_selection not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
             print(
                 '''
 
