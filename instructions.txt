@@ -1,0 +1,26 @@
+          Welcome to Tic-Tac-toe.
+
+          Instructions:
+
+            1) You will be prompted to choose your marker X or O.
+
+            2) You can choose to play agains the computer or against
+               another player.
+
+            3) The game is played on a a grid that's 3 square
+               by 3 squares
+
+            4)Enter the board position to select your marker:
+
+                        7 | 8 | 9
+                        ---------
+                        4 | 5 | 6
+                        ---------
+                        1 | 2 | 3
+
+            5) The winner is the first to get three of his/her mark
+               in a row (up, down, accross or diagonally)
+
+            6) The game is over is all 9 squares are full
+
+            Enjoy the game !
