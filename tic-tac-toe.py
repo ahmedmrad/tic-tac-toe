@@ -150,6 +150,6 @@ def select_mode(opponent_choice):
     '''
     if opponent_choice == 'computer':
         mode = 'computer'
-    elif opponent_choice == 'player'
+    elif opponent_choice == 'player':
         mode = 'player'
     return mode
