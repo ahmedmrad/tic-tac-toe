@@ -24,15 +24,16 @@ def draw_board(board):
     print('         ')
 
 
-def user_choice():
+def marker_choice():
     '''Input wich marker X or O for the game
 
-    :returns user_choise: user input representing board marker X or O
-    :rtype user_choice: str
+    :raise ValueError: ValueError if x,o X or O is not entered
+    :returns marker_choice: user input representing board marker X or O
+    :rtype marker_choice: str
     '''
     while True:
         try:
-            user_choice = input(
+            marker_choice = input(
                 '''
 
                 Please choose your marker X or O:
@@ -46,7 +47,7 @@ def user_choice():
 
                 ''')
             continue
-        if user_choice.upper() not in ['X', 'O']:
+        if marker_choice.upper() not in ['X', 'O']:
             print(
                 '''
 
@@ -56,7 +57,7 @@ def user_choice():
             continue
         else:
             break
-    return user_choice.upper()
+    return marker_choice.upper()
 
 
 def opponent_choice():
@@ -96,7 +97,7 @@ def opponent_choice():
     return opponent_choice.lower().replace(' ', '')
 
 
-def select_marker_position(board, user_choice):
+def select_marker_position(board, marker_choice):
     '''Select where to place marker with list index
 
     :param board:
@@ -105,8 +106,10 @@ def select_marker_position(board, user_choice):
     :type user_choice: tr
     :returns board: updated marker list according to index choice
     :rtype board: list
+    :returns index_board_selection: index of the marker during the turn
+    :rtype index_board_selection: int
     '''
-    while True:
+    while ' ' in board:
         try:
             index_board_selection = int(input(
                 '''
@@ -126,7 +129,6 @@ def select_marker_position(board, user_choice):
                   '''
             )
             continue
-            # catch the error value
         if index_board_selection not in [1, 2, 3, 4, 5, 6, 7, 8, 9]:
             print(
                 '''
@@ -137,10 +139,21 @@ def select_marker_position(board, user_choice):
 
                   '''
             )
+            continue
+        elif board[index_board_selection] != ' ':
+            print(
+                '''
+                  This index is ticked
+                  please choose another one.
+
+                '''
+            )
+            continue
         else:
-            break
-    board[index_board_selection] = user_choice
-    return board
+            board[index_board_selection] = marker_choice
+        return board, index_board_selection
+    else:
+        print('Board full')
 
 
 def select_mode(opponent_choice):
@@ -156,3 +169,47 @@ def select_mode(opponent_choice):
     elif opponent_choice == 'player':
         mode = 'player'
     return mode
+
+
+def check_victory(board):
+    '''Check if the victory condition is met
+
+    :param board: list of marker elements in the board list
+    :type board:s list
+    :returns check_victory: victory condition met or not
+    :rtype check_victory: bool
+    '''
+    if (board[1] == board[2] == board[3]) == True:
+        check_victory = True
+    elif (board[4] == board[5] == board[6]) == True:
+        check_victory = True
+    elif (board[7] == board[8] == board[9]) == True:
+        check_victory = True
+    elif (board[1] == board[4] == board[7]) == True:
+        check_victory = True
+    elif (board[2] == board[5] == board[8]) == True:
+        check_victory = True
+    elif (board[3] == board[6] == board[9]) == True:
+        check_victory = True
+    elif (board[7] == board[5] == board[3]) == True:
+        check_victory = True
+    elif (board[1] == board[5] == board[9]) == True:
+        check_victory = True
+    else:
+        check_victory = False
+    return check_victory
+
+
+def check_tie(board):
+    '''Check if there is a tie, game ended
+
+    :param board: list of marker elements in the board list
+    :type board: list
+    :returns check_tie: tie condition met or not
+    :rtype check_tie: bool
+    '''
+    if ' ' not in board:
+        check_tie = True
+    else:
+        check_tie = False
+    return check_tie
