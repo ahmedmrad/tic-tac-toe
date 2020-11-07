@@ -1,15 +1,4 @@
-board = ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
-
-
-def instructions(filename):
-    '''Print instructions at the beginning of the game
-
-    :param filename: name of file, should be called instructions.txt
-    :type filename: str
-    '''
-    with open(filename, 'r') as f:
-        instructions = f.read()
-        print(instructions)
+from instructions import *
 
 
 def draw_board(board):
@@ -24,77 +13,12 @@ def draw_board(board):
     print('         ')
 
 
-def marker_choice():
-    '''Input wich marker X or O for the game
-
-    :raise ValueError: ValueError if x,o X or O is not entered
-    :returns marker_choice: user input representing board marker X or O
-    :rtype marker_choice: str
-    '''
-    while True:
-        try:
-            marker_choice = input(
-                '''
-
-                Please choose your marker X or O:
-
-                ''')
-        except ValueError:
-            print(
-                '''
-
-                Sorry I did not understand that. Type your marker again
-
-                ''')
-            continue
-        if marker_choice.upper() not in ['X', 'O']:
-            print(
-                '''
-
-                Sorry I did not understand that. Type your marker again
-
-                ''')
-            continue
-        else:
-            break
-    return marker_choice.upper()
-
-
-def opponent_choice():
-    '''Choose playing agains another player or the computer
-
-    :returns opponent choice: another player (human) or computer (ai)
-    :rtype opponent_choice: str
-    '''
-    while True:
-        try:
-            opponent_choice = input(
-                '''
-
-                Do you wish to play agains another player
-                or against the computer ?
-                Please type player or computer:
-
-                ''')
-        except ValueError:
-            print(
-                '''
-
-                Sorry I did not understand that.
-
-                ''')
-            continue
-        if opponent_choice.lower().replace(' ', '') not in ['computer', 'player']:
-            print(
-                '''
-
-                Sorry I did not understand that.
-
-                ''')
-            continue
-        else:
-            break
-    return opponent_choice.lower().replace(' ', '')
+def opponent_marker(marker_choice):
+    if marker_choice == 'X':
+        opponent_choice = 'O'
+    elif marker_choice == 'O':
+        opponent_choice = 'X'
+    return opponent_choice
 
 
 def select_marker_position(board, marker_choice):
@@ -102,14 +26,14 @@ def select_marker_position(board, marker_choice):
 
     :param board:
     :type board: list
-    :param user_choice: marker choice X or O
-    :type user_choice: tr
+    :param marker_choice: marker choice X or O
+    :type marker_choice: str
     :returns board: updated marker list according to index choice
     :rtype board: list
     :returns index_board_selection: index of the marker during the turn
     :rtype index_board_selection: int
     '''
-    while ' ' in board:
+    while True:
         try:
             index_board_selection = int(input(
                 '''
@@ -152,23 +76,6 @@ def select_marker_position(board, marker_choice):
         else:
             board[index_board_selection] = marker_choice
         return board, index_board_selection
-    else:
-        print('Board full')
-
-
-def select_mode(opponent_choice):
-    '''Determine in what mode the game will be played
-
-    :param opponent_choice: user input for opponent selection
-    :type opponent_choice: str
-    :returns mode: mode of the game, computer(ai) or player(human)
-    :rtype mode: str
-    '''
-    if opponent_choice == 'computer':
-        mode = 'computer'
-    elif opponent_choice == 'player':
-        mode = 'player'
-    return mode
 
 
 def check_victory(board):
@@ -176,28 +83,28 @@ def check_victory(board):
 
     :param board: list of marker elements in the board list
     :type board:s list
-    :returns check_victory: victory condition met or not
-    :rtype check_victory: bool
+    :returns victory: victory condition met or not
+    :rtype victory: bool
     '''
-    if (board[1] == board[2] == board[3]) == True:
-        check_victory = True
-    elif (board[4] == board[5] == board[6]) == True:
-        check_victory = True
-    elif (board[7] == board[8] == board[9]) == True:
-        check_victory = True
-    elif (board[1] == board[4] == board[7]) == True:
-        check_victory = True
-    elif (board[2] == board[5] == board[8]) == True:
-        check_victory = True
-    elif (board[3] == board[6] == board[9]) == True:
-        check_victory = True
-    elif (board[7] == board[5] == board[3]) == True:
-        check_victory = True
-    elif (board[1] == board[5] == board[9]) == True:
-        check_victory = True
+    if (board[1] != ' ' and board[2] != ' ' and board[3] != ' ') and (board[1] == board[2] == board[3]):
+        victory = True
+    elif (board[4] != ' ' and board[5] != ' ' and board[6] != ' ') and (board[4] == board[5] == board[6]):
+        victory = True
+    elif (board[7] != ' ' and board[8] != ' ' and board[9] != ' ') and (board[7] == board[8] == board[9]):
+        victory = True
+    elif (board[1] != ' ' and board[4] != ' ' and board[7] != ' ') and (board[1] == board[4] == board[7]):
+        victory = True
+    elif (board[2] != ' ' and board[5] != ' ' and board[8] != ' ') and (board[2] == board[5] == board[8]):
+        victory = True
+    elif (board[3] != ' ' and board[6] != ' ' and board[9] != ' ') and (board[3] == board[6] == board[9]):
+        victory = True
+    elif (board[7] != ' ' and board[5] != ' ' and board[3] != ' ') and (board[7] == board[5] == board[3]):
+        victory = True
+    elif (board[1] != ' ' and board[5] != ' ' and board[9] != ' ') and (board[1] == board[5] == board[9]):
+        victory = True
     else:
-        check_victory = False
-    return check_victory
+        victory = False
+    return victory
 
 
 def check_tie(board):
@@ -209,7 +116,59 @@ def check_tie(board):
     :rtype check_tie: bool
     '''
     if ' ' not in board:
-        check_tie = True
+        tie = True
     else:
-        check_tie = False
-    return check_tie
+        tie = False
+    return tie
+
+
+def main():
+    board = ['*', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']
+    instructions('instructions.txt')
+    player2 = opponent_choice()
+    player1_marker = marker_choice()
+    player2_marker = opponent_marker(player1_marker)
+    print(player1_marker)
+    print(player2_marker)
+    if player2 == 'player':
+        turn_number = 0
+        while turn_number <= 5:
+            print(
+                '''
+
+                  Turn number {}
+
+                  '''.format(turn_number + 1)
+            )
+            (board, index_board_selection) = select_marker_position(
+                board, player1_marker)
+            draw_board(board)
+            print(board)
+            if check_victory(board) == True:
+                print(
+                    '''
+
+                      player 1 won
+
+                      '''
+                )
+                break
+            (board, index_board_selection) = select_marker_position(
+                board, player2_marker)
+            draw_board(board)
+            if check_victory(board) == True:
+                print(
+                    '''
+
+                      player 2 won
+
+                      '''
+                )
+                break
+            turn_number += 1
+    elif player2 == 'computer':
+        print('Leave human')
+
+
+if __name__ == '__main__':
+    main()
